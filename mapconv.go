@@ -22,7 +22,7 @@ func ToMap(value interface{}, prefix string) (m map[string]string, err error) {
 		case reflect.Bool:
 			m[path] = strconv.FormatBool(v.Bool())
 		case reflect.Float32, reflect.Float64:
-			m[path] = strings.TrimRight(strings.TrimRight(strconv.FormatFloat(v.Float(), 'f', 4, 64), "0"), ".")
+			m[path] = strings.TrimRight(strings.TrimRight(strconv.FormatFloat(v.Float(), 'f', 6, 64), "0"), ".")
 		case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
 			m[path] = strconv.FormatInt(v.Int(), 10)
 		case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64:
