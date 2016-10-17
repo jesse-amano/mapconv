@@ -7,6 +7,7 @@ import (
 	"strconv"
 )
 
+// ToMap returns a map[path]value given any arbitrary value.
 func ToMap(value interface{}, prefix string) (m map[string]string, err error) {
 	m = make(map[string]string)
 
