@@ -30,6 +30,72 @@ func TestToMap(t *testing.T) {
 				"": "42",
 			},
 		},
+		"int8": {
+			provide: int8(42),
+			expect: map[string]string{
+				"": "42",
+			},
+		},
+		"int16": {
+			provide: int16(42),
+			expect: map[string]string{
+				"": "42",
+			},
+		},
+		"int32": {
+			provide: int32(42),
+			expect: map[string]string{
+				"": "42",
+			},
+		},
+		"int64": {
+			provide: int64(42),
+			expect: map[string]string{
+				"": "42",
+			},
+		},
+		"uint": {
+			provide: uint(42),
+			expect: map[string]string{
+				"": "42",
+			},
+		},
+		"uint8": {
+			provide: uint8(42),
+			expect: map[string]string{
+				"": "42",
+			},
+		},
+		"uint16": {
+			provide: uint16(42),
+			expect: map[string]string{
+				"": "42",
+			},
+		},
+		"uint32": {
+			provide: uint32(42),
+			expect: map[string]string{
+				"": "42",
+			},
+		},
+		"uint64": {
+			provide: uint64(42),
+			expect: map[string]string{
+				"": "42",
+			},
+		},
+		"float32": {
+			provide: float32(4.2),
+			expect: map[string]string{
+				"": "4.2",
+			},
+		},
+		"float64": {
+			provide: float64(4.2),
+			expect: map[string]string{
+				"": "4.2",
+			},
+		},
 		"string": {
 			provide: "foo",
 			expect: map[string]string{
@@ -77,6 +143,14 @@ func TestToMap(t *testing.T) {
 		},
 		"slice of ints": {
 			provide: []int{9, 99, 999},
+			expect: map[string]string{
+				`[1]`: "9",
+				`[2]`: "99",
+				`[3]`: "999",
+			},
+		},
+		"array of ints": {
+			provide: [...]int{9, 99, 999},
 			expect: map[string]string{
 				`[1]`: "9",
 				`[2]`: "99",
