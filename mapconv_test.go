@@ -47,9 +47,9 @@ func TestToMap(t *testing.T) {
 				},
 			},
 			expect: map[string]string{
-				"foo.bar":    "baz",
-				"qux.quux":   "corge",
-				"qux.grault": "garply",
+				`["foo"]["bar"]`:    "baz",
+				`["qux"]["quux"]`:   "corge",
+				`["qux"]["grault"]`: "garply",
 			},
 		},
 		"map of strings": {
@@ -58,8 +58,8 @@ func TestToMap(t *testing.T) {
 				"bar": "bar text",
 			},
 			expect: map[string]string{
-				"foo": "foo text",
-				"bar": "bar text",
+				`["foo"]`: "foo text",
+				`["bar"]`: "bar text",
 			},
 		},
 		"map of slices of strings": {
@@ -68,44 +68,41 @@ func TestToMap(t *testing.T) {
 				"colors": []string{"blue", "green", "red"},
 			},
 			expect: map[string]string{
-				"names[1]":  "bill",
-				"names[2]":  "bob",
-				"colors[1]": "blue",
-				"colors[2]": "green",
-				"colors[3]": "red",
+				`["names"][1]`:  "bill",
+				`["names"][2]`:  "bob",
+				`["colors"][1]`: "blue",
+				`["colors"][2]`: "green",
+				`["colors"][3]`: "red",
 			},
 		},
 		"slice of ints": {
-			prefix:  "ints",
 			provide: []int{9, 99, 999},
 			expect: map[string]string{
-				"ints[1]": "9",
-				"ints[2]": "99",
-				"ints[3]": "999",
+				`[1]`: "9",
+				`[2]`: "99",
+				`[3]`: "999",
 			},
 		},
 		"slice of strings": {
 			prefix:  "strings",
 			provide: []string{"foo", "bar", "baz"},
 			expect: map[string]string{
-				"strings[1]": "foo",
-				"strings[2]": "bar",
-				"strings[3]": "baz",
+				`strings[1]`: "foo",
+				`strings[2]`: "bar",
+				`strings[3]`: "baz",
 			},
 		},
 		"slice of maps": {
-			prefix: "names",
 			provide: []map[string]string{
 				{"name": "foo"},
 				{"name": "bar"},
 			},
 			expect: map[string]string{
-				"names[1].name": "foo",
-				"names[2].name": "bar",
+				`[1]["name"]`: "foo",
+				`[2]["name"]`: "bar",
 			},
 		},
 		"slice of slice of ints": {
-			prefix: "",
 			provide: [][]int{
 				[]int{1, 2},
 				[]int{3, 4},
@@ -133,12 +130,12 @@ func TestToMap(t *testing.T) {
 		]
 	}`
 	jsonExpect := map[string]string{
-		"name":             "bob",
-		"age":              "35",
-		"children[1].name": "jack",
-		"children[1].age":  "5",
-		"children[2].name": "jill",
-		"children[2].age":  "7",
+		`["name"]`:                "bob",
+		`["age"]`:                 "35",
+		`["children"][1]["name"]`: "jack",
+		`["children"][1]["age"]`:  "5",
+		`["children"][2]["name"]`: "jill",
+		`["children"][2]["age"]`:  "7",
 	}
 	var jsonValue interface{}
 	err := json.Unmarshal([]byte(jsonDoc), &jsonValue)

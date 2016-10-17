@@ -41,11 +41,8 @@ func ToMap(value interface{}, prefix string) (m map[string]string, err error) {
 	rv := reflect.ValueOf(value)
 	switch rv.Kind() {
 	case reflect.Map:
-		if len(prefix) > 0 {
-			prefix += "."
-		}
 		for _, k := range rv.MapKeys() {
-			path := prefix + k.String()
+			path := prefix + `["` + k.String() + `"]`
 			v := rv.MapIndex(k)
 			err = assignSubValue(path, v)
 			if err != nil {
