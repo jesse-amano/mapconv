@@ -19,18 +19,20 @@ func ToMap(value interface{}, prefix string) (m map[string]string, err error) {
 		switch v.Kind() {
 		case reflect.Bool:
 			m[path] = strconv.FormatBool(v.Bool())
+		case reflect.Float64:
+			m[path] = strconv.FormatFloat(v.Float(), 'f', 0, 64)
 		case reflect.Int:
 			m[path] = strconv.FormatInt(v.Int(), 10)
 		case reflect.String:
 			m[path] = v.String()
-		case reflect.Map, reflect.Slice:
+		case reflect.Map, reflect.Slice, reflect.Interface:
 			var subMap map[string]string
 			subMap, err = ToMap(v.Interface(), path)
 			for key, value := range subMap {
 				m[key] = value
 			}
 		default:
-			err = fmt.Errorf("mapconv: unknown value type %s", v.Kind())
+			err = fmt.Errorf("mapconv: unknown value on path (%s) of type (%s)", path, v.Kind())
 		}
 		return err
 	}
@@ -46,7 +48,7 @@ func ToMap(value interface{}, prefix string) (m map[string]string, err error) {
 			v := rv.MapIndex(k)
 			err = assignSubValue(path, v)
 			if err != nil {
-				return
+				//return
 			}
 		}
 	case reflect.Slice:
@@ -55,7 +57,7 @@ func ToMap(value interface{}, prefix string) (m map[string]string, err error) {
 			v := rv.Index(i)
 			err = assignSubValue(path, v)
 			if err != nil {
-				return
+				//return
 			}
 		}
 	default:

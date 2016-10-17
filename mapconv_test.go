@@ -1,6 +1,7 @@
 package mapconv
 
 import (
+	"encoding/json"
 	"reflect"
 	"testing"
 )
@@ -117,13 +118,48 @@ func TestToMap(t *testing.T) {
 			},
 		},
 	}
+	jsonDoc := `{
+		"name": "bob",
+		"age": 35,
+		"children": [
+			{
+				"name": "jack",
+				"age": 5
+			},
+			{
+				"name": "jill",
+				"age": 7
+			}
+		]
+	}`
+	jsonExpect := map[string]string{
+		"name":             "bob",
+		"age":              "35",
+		"children[1].name": "jack",
+		"children[1].age":  "5",
+		"children[2].name": "jill",
+		"children[2].age":  "7",
+	}
+	var jsonValue interface{}
+	err := json.Unmarshal([]byte(jsonDoc), &jsonValue)
+	if err != nil {
+		t.Errorf("error unmarshalling test value: %v", err)
+		t.FailNow()
+	}
+	tests["json.Unmarshalled value"] = struct {
+		prefix  string
+		provide interface{}
+		expect  map[string]string
+	}{
+		provide: jsonValue,
+		expect:  jsonExpect,
+	}
 	for name, test := range tests {
 		t.Run(name, func(t *testing.T) {
 			actual, err := ToMap(test.provide, test.prefix)
 			if err != nil {
 				t.Error(err)
 			}
-			// t.Logf("\n (%v) got: %#v\n", name, actual)
 			if !reflect.DeepEqual(actual, test.expect) {
 				t.Errorf("\nexpected: %#v \n but got: %#v", test.expect, actual)
 			}
