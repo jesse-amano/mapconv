@@ -60,13 +60,13 @@ func assignSubValue(m map[string]string, path string, v interface{}) (err error)
 		m[path] = strconv.FormatUint(rv.Uint(), 10)
 	case reflect.String:
 		m[path] = rv.String()
-	case reflect.Array, reflect.Map, reflect.Slice, reflect.Interface:
+	case reflect.Array, reflect.Map, reflect.Slice:
 		var subMap map[string]string
 		subMap, err = ToMap(rv.Interface(), path)
 		for key, value := range subMap {
 			m[key] = value
 		}
-	case reflect.Invalid, reflect.Chan, reflect.Func, reflect.UnsafePointer, reflect.Complex64, reflect.Complex128:
+	case reflect.Invalid, reflect.Chan, reflect.Func, reflect.UnsafePointer, reflect.Complex64, reflect.Complex128, reflect.Interface:
 		err = unsupportedKindError{
 			path: path,
 			kind: rv.Kind(),
