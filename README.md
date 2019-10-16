@@ -1,5 +1,5 @@
 # mapconv
-Golang package for flattening a structured value down to a map of paths to values.
+Go package for flattening a structured value down to a map of paths to values.
 
 Arrays, maps, and slices recursively produce map keys until terminal values are found.
 
